@@ -9,7 +9,7 @@ The following repository showcases hardware accelerated video encode on Nvidia J
 
 - **ONLY** If you have Nvidia Jetson with Gstreamer 1.14.5 and a RealSense D435
 
-- [INSTALL MY PLUGIN AT](https://github.com/JaredHane98/D435-Y8I-Gstreamer-Plugin)
+- [INSTALL MY PLUGIN](https://github.com/JaredHane98/D435-Y8I-Gstreamer-Plugin)
 
 - clone the repository
 
