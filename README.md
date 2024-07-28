@@ -1,7 +1,7 @@
 # RTSP NVENC NVIDIA JETSON STREAM
 
 
-The following repository showcases using hardware accelerated video encode on Nvidia Jetson using Gstreamer. The camera parameters are **very** application specific and must be changed if the setup is different.
+The following repository showcases hardware accelerated video encode on Nvidia Jetson using Gstreamer. The camera parameters are **very** application specific and must be changed if the setup is different.
 
 
 
