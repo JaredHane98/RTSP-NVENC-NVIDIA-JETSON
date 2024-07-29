@@ -1,29 +1,20 @@
 # RTSP NVENC NVIDIA JETSON STREAM
 
 
-The following repository showcases hardware accelerated video encode on Nvidia Jetson using Gstreamer. The camera parameters are **very** application specific and must be changed if the setup is different.
+The following repository showcases hardware accelerated video encode on Nvidia Jetson using Gstreamer. The camera parameters are **very** application specific must be changed. 
 
 
 
 ## How to use
 
-- **ONLY** If you have Nvidia Jetson with Gstreamer 1.14.5 and a RealSense D435
-
+- **ONLY** for Nvidia Jetson with Gstreamer 1.14.5 and Realsense D435
 - [INSTALL MY PLUGIN](https://github.com/JaredHane98/D435-Y8I-Gstreamer-Plugin)
-
-- clone the repository
-
+- clone
 - navigate to the build directory
-
 - cmake && make
-
 - launch with ./RTSP_SERVER_EXAMPLE 
-
-- on another system with VLC media player open the Network with the stream URL
-
+- use VLC to display network stream.
 - EG: rtsp://192.168.68.61:8554/test
-
-
 
 
 https://github.com/user-attachments/assets/a432ba64-dbbd-4b52-a0dc-fc0d057bf301
