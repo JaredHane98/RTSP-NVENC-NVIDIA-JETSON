@@ -14,11 +14,6 @@
 
 
 
-
-
-
-
-
 class GStreamPipeline
 {
 private:
@@ -30,6 +25,15 @@ private:
     GMainLoop*  m_loop;
 
 
+    /**
+    @brief creates a gstreame element
+    @param element Gstelement to link
+    @param caps caps filter can be NULL
+    @param child_element child to link
+    @param element_name element name
+    @param child_element_name child_element_name
+    @return true on success false on failure
+    */
     bool linkElement(GstElement* element, GstCaps* caps, GstElement* child_element, const std::string& element_name, const std::string& child_element_name)
     {
         if(G_UNLIKELY(!GST_IS_ELEMENT(element)))
@@ -62,7 +66,13 @@ private:
         }
         return true;
     }
-
+    /**
+    @brief creates a gstream element 
+    @param element gstElement plugin name
+    @param element_name element name
+    @param pipe to attach
+    @returns contructed element or NULL on failure
+    */
     GstElement* createElement(const std::string& element, const std::string& element_name, GstElement* pipe)
     {   
         GstElement* output;
