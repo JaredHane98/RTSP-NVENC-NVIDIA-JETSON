@@ -24,7 +24,6 @@ private:
     GstElement* m_pipeline;
     GMainLoop*  m_loop;
 
-
     /**
     @brief creates a gstreame element
     @param element Gstelement to link
@@ -92,6 +91,12 @@ private:
     }
 
 public:
+    /**
+    @brief constructs a pipeline with the provided arguments
+    @param pipeline_name name of the pipeline to construct
+    @param init_gstream initialize gstreamer in constructor?
+    @param create_main_loop create a GMainLoop in constructor? 
+    */
     GStreamPipeline(const std::string& pipeline_name, const bool init_gstream = true, const bool create_main_loop = true)
         : m_pipeline_map(), m_pipeline(NULL), m_loop(NULL)
     {
@@ -102,14 +107,20 @@ public:
         
         m_pipeline = gst_pipeline_new(pipeline_name.c_str());
     }
-
+    /**
+    @brief does nothing
+    */
     ~GStreamPipeline()
     {}
 
     GStreamPipeline(GStreamPipeline&&) = delete;
     GStreamPipeline(const GStreamPipeline&) = delete;
-
-
+    /**
+    @brief adds an element to the pipeline
+    @param element GstElement plugin name
+    @param element_name element_name
+    @returns true on success false on failure
+    */
     bool addElement(const std::string& element, const std::string& element_name)
     {
         GstElement* new_element = createElement(element, element_name, m_pipeline); 
@@ -121,6 +132,12 @@ public:
         m_pipeline_map[element_name] = {new_element, NULL};
         return true;
     }
+    /**
+    @brief adds a element to the pipeline
+    @param element GstElement plugin name
+    @param element_name element_name
+    @param element_caps element_caps string
+    */
     bool addElement(const std::string& element, const std::string& element_name, const std::string& element_caps)
     {
         GstElement* new_element = createElement(element, element_name, m_pipeline); 
@@ -138,7 +155,6 @@ public:
         m_pipeline_map[element_name] = {new_element, caps};
         return false;
     }
-
     /** 
     @brief Links the elements by list of name
     @param element_name list of nanes
@@ -173,8 +189,6 @@ public:
         }
         return true; 
     }
-
-
     /**
     @brief Sets the element signal to supplied callback
     @param element element name
@@ -195,7 +209,6 @@ public:
         
         g_signal_connect(G_OBJECT(element), signal_name.c_str(), G_CALLBACK (callback), user_data);
     }
-
     /**
     @brief Sets the element property to the provided value
     @param element elements name
@@ -272,14 +285,9 @@ public:
     }
 };
 
-
-
-
-
 static GstElement* rtspFactoryCreateElement(GstRTSPMediaFactory * factory, const GstRTSPUrl * url)
 {
     GStreamPipeline pipeline("JETSON_PIPELINE", false, false);
-
 
     pipeline.addElement("v4l2src", "v4l2src0", "video/x-raw, format=(string)GRAY8, width=(int)1280, height=(int)720, interlace-mode=(string)progressive, framerate=(fraction)30/1"); 
     pipeline.addElement("rsdeinterlace", "rsdeinterlace0");
@@ -299,7 +307,6 @@ static GstElement* rtspFactoryCreateElement(GstRTSPMediaFactory * factory, const
     pipeline.setElementProperty("nvv4l2h264enc0", "insert-vui", true);
     pipeline.setElementProperty("nvv4l2h264enc0", "maxperf-enable", true);
 
-
     pipeline.linkElementsByName({"v4l2src0", "rsdeinterlace0", "videoconvert0", "nvvidconv0", "nvv4l2h264enc0", "h264parse0", "pay0"});
 
     return pipeline.attachToBin();
@@ -315,10 +322,8 @@ struct _RTSPFactory
 
 G_DEFINE_TYPE (RTSPFactory, rtsp_factory, GST_TYPE_RTSP_MEDIA_FACTORY);
 
-
 static void rtsp_factory_init (RTSPFactory * factory)
 {}
-
 
 static void rtsp_factory_class_init (RTSPFactoryClass * klass)
 {
@@ -331,6 +336,7 @@ static GstRTSPMediaFactory *rtspFactoryNew (void)
     GstRTSPMediaFactory *result = GST_RTSP_MEDIA_FACTORY (g_object_new (rtsp_factory_get_type (), NULL));
     return result;
 }
+
 static gboolean timeout (GstRTSPServer * server)
 {
     GstRTSPSessionPool *pool;
@@ -339,8 +345,6 @@ static gboolean timeout (GstRTSPServer * server)
     g_object_unref (pool);
     return TRUE;
 }
-
-
 
 static void createRtspServer()
 {
